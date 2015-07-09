@@ -1,7 +1,7 @@
 # chakatbot
 
 This is a twitter bot that assembles the latest in chakat and taur artwork for the discerning
-furry art connoisseur. See [@chakatbot](https://twitter.com/chakatbot).
+furry art connoisseur. See [@chakatbot](https://twitter.com/chakatbot) (NSFW).
 
 If you don't like chakats, then you can easily change this bot to use keywords of your choosing.
 
