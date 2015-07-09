@@ -96,6 +96,7 @@ class ChakatBot(TwitterBot):
             if not (submission['submitid'] in self.state['processed'] and
                     submission['subtype'] == 'visual'):
                 self.state['queue'].append(submission['submitid'])
+                self.state['queue'] = list(set(self.state['queue']))
                 self.log('Added %d to queue' % submission['submitid'])
         else:
             self.log('No submitid to add')
@@ -121,11 +122,14 @@ class ChakatBot(TwitterBot):
         """
         Filter a list of submissions based on keywords
         """
+        # Search the title and the tags for filter_strings
         self.log('Searching submissions...')
         for i in submissions:
             if (self.find_in_string(i['title'], 'title') or
-               self.find_in_string("\n".join(i['tags']), 'tags')):
+                self.find_in_string("\n".join(i['tags']), 'tags')):
                 self.add_to_queue(i)
+            # Optional code for searching through description text
+            """
             elif 'submitid' in i:
                 try:
                     submission = self.w_api.view_submission(i['submitid'])
@@ -133,6 +137,7 @@ class ChakatBot(TwitterBot):
                         self.add_to_queue(i)
                 except:
                     pass
+            """
 
         self.state['queue'].sort()
         self.log('Queued submissions: %s' % str(self.state['queue']).strip('[]'))
@@ -141,7 +146,7 @@ class ChakatBot(TwitterBot):
     def post_tweet(self, url, title, link):
         filename, msg = urllib.urlretrieve(url, reporthook=self.download_reporthook)
         if os.path.exists(filename):
-            self.log('File exists:', os.path.exists(filename))
+            self.log('File exists:', filename)
             status = link + ' ' + title
             if len(status) > 140:
                 status = status[:140]
@@ -192,8 +197,11 @@ class ChakatBot(TwitterBot):
         """
         # get 100 most recent submissions
         self.log('Retrieving most recent submissions...')
-        submissions = self.w_api.frontpage()
-        self.filter_submissions(submissions)
+        try:
+            submissions = self.w_api.frontpage()
+            self.filter_submissions(submissions)
+        except:
+            self.log('Failed to retrieve submission data.')
         self.tweet_from_queue()
         if self.state['queue']:
             self.log('Queued submissions remaining: %s' % str(self.state['queue']).strip('[]'))

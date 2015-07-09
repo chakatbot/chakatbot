@@ -34,7 +34,7 @@ Don't have a Weasyl key? Make sure you're logged in, then visit [this page](http
 Here's a description of the options in `default.ini`:
 
 - **tweet_interval:** the number of seconds between tweets. Default is 15 minutes.
-- **filter_strings:** a list of keywords that the bot will look for in the title, tags, and description of submissions. **The bot will find these keywords even if they are substrings.**
+- **filter_strings:** a list of keywords that the bot will look for in the title and tags of submissions. **The bot will find these keywords even if they are substrings.**
 - **ignore_strings:** a list of keywords that the bot will ignore, even if it contains a keyword as a substring.
 - **api_key, api_secret, access_key, access_secret:** your bot's Twitter credentials.
 - **weasyl_api:** your bot's Weasyl key.
@@ -44,5 +44,6 @@ There are additional options, but you must set them within `chakatbot.py`. Assum
 ### to do
 
 - Add an option to ignore keywords that appear as substrings.
+- Add options to control keyword search in title, tags, and descriptions.
 - Add support for other art portals with public APIs.
 - Add support for additional options in configuration files.
